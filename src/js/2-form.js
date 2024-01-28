@@ -1,17 +1,17 @@
-const form = document.querySelector('.feedback-form');
-const localStorageKey = 'feedback-form-state';
+const form = document.querySelector(".feedback-form");
+const localStorageKey = "feedback-form-state";
 
 // Checking for saved data in localStorage
 const savedState = JSON.parse(localStorage.getItem(localStorageKey));
 
 if (savedState) {
   // Filling form fields with saved data
-  form.elements.email.value = savedState.email || '';
-  form.elements.message.value = savedState.message || '';
+  form.elements.email.value = savedState.email || "";
+  form.elements.message.value = savedState.message || "";
 }
 
 // Adding input event listener using event delegation
-form.addEventListener('input', event => {
+form.addEventListener("input", (event) => {
   const formData = {
     email: form.elements.email.value,
     message: form.elements.message.value,
@@ -22,7 +22,7 @@ form.addEventListener('input', event => {
 });
 
 // Adding submit event listener
-form.addEventListener('submit', event => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // Getting and logging form data
