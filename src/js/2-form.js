@@ -1,39 +1,34 @@
-const form = document.querySelector(".feedback-form");
-const localStorageKey = "feedback-form-state";
+const form = document.querySelector('.feedback-form');
+const localStorageKey = 'feedback-form-state';
+  
+const storedForm = JSON.parse(localStorage.getItem(localStorageKey));
+  
+  if (storedForm) {
+    form.elements.email.value = storedForm.email || "";
+    form.elements.message.value = storedForm.message || "";
+};
 
-// Checking for saved data in localStorage
-const savedState = JSON.parse(localStorage.getItem(localStorageKey));
+  form.addEventListener("input", () => {
+    const formState = {
+      email: form.elements.email.value.trim(),
+      message: form.elements.message.value.trim(),
+    };
+    localStorage.setItem(localStorageKey, JSON.stringify(formState));
+  });
 
-if (savedState) {
-  // Filling form fields with saved data
-  form.elements.email.value = savedState.email || "";
-  form.elements.message.value = savedState.message || "";
-}
 
-// Adding input event listener using event delegation
-form.addEventListener("input", (event) => {
-  const formData = {
-    email: form.elements.email.value,
-    message: form.elements.message.value,
-  };
+  form.addEventListener("submit", (eve) => {
+    eve.preventDefault();
+    if (form.elements.email.value === '' || form.elements.message.value === ''){
+    console.log('Please fill in both email and message fields');
+    return;
+  }
+    console.log("Data submitted:", JSON.parse(localStorage.getItem(localStorageKey)));
+    form.reset();
+    localStorage.removeItem(localStorageKey);
+  });
 
-  // Saving form data to localStorage
-  localStorage.setItem(localStorageKey, JSON.stringify(formData));
-});
 
-// Adding submit event listener
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
 
-  // Getting and logging form data
-  const formData = {
-    email: form.elements.email.value,
-    message: form.elements.message.value,
-  };
 
-  console.log(formData);
 
-  // Clearing localStorage and form fields
-  localStorage.removeItem(localStorageKey);
-  form.reset();
-});

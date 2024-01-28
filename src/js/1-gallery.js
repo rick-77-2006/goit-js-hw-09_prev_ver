@@ -64,34 +64,40 @@ const images = [
   },
 ];
 
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector(".gallery");
+
 const markup = images
-  .map(
-    (image) => `<li class="gallery-item">
-    <a class="gallery-link" href="${image.original}">
-        <img 
-            class="gallery-image" 
-            src="${image.preview}" 
-            alt="${image.description}" 
-            />
-    </a>
+  .map(({ preview, original, description }) => {
+      return `<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
+    <img
+      class="gallery-image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${description}"
+    />
+  </a>
 </li>`
-  )
-  .join("");
+    }).join(""); 
 
 gallery.innerHTML = markup;
 
-const options = {
-  captions: true,
-  captionSelector: "img",
-  captionType: "attr",
-  captionsData: "alt",
-  captionPosition: "bottom",
-  animation: 250,
-};
 
-const lightbox = new SimpleLightbox(".gallery a", options);
-lightbox.on("show.simplelightbox");
+const lightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionType: 'attr',
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  fadeSpeed: 150,
+  captionSelector: "img",
+  captionDelay: 250,
+});
+
+lightbox.on('show.simplelightbox');
+
+
+
+
